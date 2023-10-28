@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import Typed from "react-typed";
 import GoogleLogin from "../components/GoogleLogin/Index";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");

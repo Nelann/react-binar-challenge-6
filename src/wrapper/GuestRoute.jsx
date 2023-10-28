@@ -1,11 +1,19 @@
 import PropTypes from "prop-types";
-import { Outlet, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import { getUser } from "../redux/actions/authAction";
+import { useEffect } from "react";
 
 const GuestRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  if (token !== null) {
-    return <Navigate to="/" replace />;
-  }
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token !== null) {
+      dispatch(getUser(navigate, "/", null));
+    }
+  }, [token, dispatch, navigate]);
 
   return children ? children : <Outlet />;
 };

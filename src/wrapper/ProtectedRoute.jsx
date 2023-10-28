@@ -1,10 +1,19 @@
-import { Outlet, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Outlet, useNavigate } from "react-router-dom";
+import { getUser } from "../redux/actions/authAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const ProtectedRoute = ({ children }) => {
-  if (localStorage.getItem("token") === null) {
-    return <Navigate to="/login" replace />;
-  }
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token === null) {
+      dispatch(getUser(navigate, null, "/login"));
+    }
+  }, [token, dispatch, navigate]);
 
   return children ? children : <Outlet />;
 };

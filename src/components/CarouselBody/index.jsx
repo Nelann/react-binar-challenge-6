@@ -1,38 +1,16 @@
-import axios from "axios";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { ENDPOINTS } from "../../utils/endpoints";
+import { getTrailerMovie } from "../../redux/actions/movieAction";
 
 const CarouselBody = ({ movie }) => {
-  const [idTrailer, setIdTrailer] = useState(null);
+  const dispatch = useDispatch();
+  const { trailerMovie } = useSelector((state) => state.movie);
 
   useEffect(() => {
-    const getTrailerMovie = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) return;
-
-        const DETAIL_URL = ENDPOINTS.detailMovie(movie?.id);
-
-        const { data } = await axios.get(DETAIL_URL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const videos = data?.data?.videos;
-        const videoTrailer = videos?.find((video) => video.type === "Trailer");
-
-        setIdTrailer(videoTrailer?.key);
-      } catch (err) {
-        throw new Error(err);
-      }
-    };
-
-    getTrailerMovie();
-  }, [movie?.id]);
+    dispatch(getTrailerMovie(movie?.id));
+  }, [dispatch, movie?.id]);
 
   return (
     <div className="absolute top-0 transform translate-y-16 md:translate-x-8 xl:translate-x-40 md:translate-y-24 xl:translate-y-44 flex flex-col md:w-4/5 xl:w-2/5 md:space-y-4 space-y-2 mx-3">
@@ -52,7 +30,7 @@ const CarouselBody = ({ movie }) => {
         <div className="flex">
           <a
             className="btn btn-sm btn-primary"
-            href={`https://www.youtube.com/watch?v=${idTrailer}`}
+            href={`https://www.youtube.com/watch?v=${trailerMovie}`}
             target="_blank"
             rel="noreferrer"
           >

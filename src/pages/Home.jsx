@@ -1,35 +1,19 @@
 import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import MovieList from "../components/MovieList";
-import axios from "axios";
-import { ENDPOINTS } from "../utils/endpoints";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getPopularMovies } from "../redux/actions/movieAction";
 
 const Home = () => {
-  const [popularMovies, setPopularMovies] = useState([]);
+  const { popular } = useSelector((state) => state.movie);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    dispatch(getPopularMovies());
+  }, [dispatch]);
 
-    if (!token) return;
-
-    const getPopularMovies = async () => {
-      try {
-        const { data } = await axios.get(ENDPOINTS.popularMovies, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setPopularMovies(data?.data);
-      } catch (err) {
-        console.error(`Error: ${err}`);
-      }
-    };
-    getPopularMovies();
-  }, []);
-
-  const slicePopularMovies = popularMovies.slice(0, 15);
+  const slicePopularMovies = popular.slice(0, 15);
 
   return (
     <>

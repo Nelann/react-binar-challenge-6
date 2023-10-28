@@ -1,9 +1,9 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
-import { ENDPOINTS } from "../../utils/endpoints";
-import axios from "axios";
+import { useCallback, useEffect } from "react";
+
 import CarouselBody from "../CarouselBody";
-import randomize from "../../utils/randomize";
+import { useDispatch, useSelector } from "react-redux";
+import { getPopularMovies } from "../../redux/actions/movieAction";
 
 const Carousel = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -16,30 +16,14 @@ const Carousel = () => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  const [popularMovies, setPopularMovies] = useState([]);
+  const { popular } = useSelector((state) => state.movie);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    dispatch(getPopularMovies());
+  }, [dispatch]);
 
-    if (!token) return;
-
-    const getPopularMovies = async () => {
-      try {
-        const { data } = await axios.get(ENDPOINTS.popularMovies, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setPopularMovies(data?.data);
-      } catch (err) {
-        console.error(`Error: ${err}`);
-      }
-    };
-    getPopularMovies();
-  }, []);
-
-  const popularMoviesSlice = randomize(popularMovies).slice(0, 3);
+  const popularMoviesSlice = popular.slice(0, 3);
 
   const renderedCarouselItem = popularMoviesSlice.map((movie) => {
     let imgSrc;

@@ -50,7 +50,7 @@ const NavbarModal = ({ onClose, user, onLogout }) => {
               <div className="flex flex-col space-y-3">
                 <NavLink
                   to="/profile"
-                  className="font-semibold my-2"
+                  className="font-semibold my-2 capitalize"
                   onClick={() => onClose()}
                 >
                   {user?.name}

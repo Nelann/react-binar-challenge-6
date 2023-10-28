@@ -1,47 +1,37 @@
-import { ENDPOINTS } from "../../utils/endpoints";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import NavbarModal from "../NavbarModal";
 import SearchForm from "../SearchForm";
 import toast from "react-hot-toast";
+import { getUser, logout } from "../../redux/actions/authAction";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleToggleModal = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLogout = async () => {
-    localStorage.removeItem("token");
+    dispatch(logout());
+
+    navigate("/login", { replace: true });
+
     toast.success("Successfully logout", {
       duration: 2000,
     });
-    window.location.replace("/login");
+
+    window.location.reload();
   };
 
   useEffect(() => {
-    const getDetailUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const { data } = await axios.get(ENDPOINTS.detailUser, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setUser(data?.data);
-      } catch (err) {
-        console.error(err);
-        throw new Error(err);
-      }
-    };
-    getDetailUser();
-  }, []);
+    dispatch(getUser(navigate, null, null));
+  }, [dispatch, navigate]);
 
   return (
     <header className="sticky top-0 z-30 ">
@@ -79,7 +69,9 @@ const Header = () => {
           <div className="hidden md:space-x-4 sm:hidden lg:block">
             {user !== null ? (
               <>
-                <Link to="/profile">{user?.name}</Link>
+                <Link to="/profile" className="capitalize">
+                  {user?.name}
+                </Link>
                 <button
                   className="btn btn-sm btn-primary rounded-full"
                   onClick={handleLogout}

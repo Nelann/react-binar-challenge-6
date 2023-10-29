@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 const DetailMovie = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
-  const { trailer, genre, detailMovie } = useSelector((state) => state.movie);
+  const { trailerMovie, genre, detailMovie } = useSelector(
+    (state) => state.movie
+  );
   const show = () => {
     document.getElementById("my_modal_4").showModal();
   };
@@ -73,7 +75,7 @@ const DetailMovie = () => {
           </div>
         </div>
       </div>
-      <Modal show={show} keytube={trailer} />
+      <Modal show={show} keytube={trailerMovie} />
     </>
   );
 };

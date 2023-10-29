@@ -14,7 +14,7 @@ const Modal = ({ keytube }) => {
     <>
       {keytube ? (
         <dialog id="my_modal_4" className="modal">
-          <div className="modal-box w-10/12 max-w-5xl min-h-[300px] sm:min-h-[400px] md:min-h-[500px] relative">
+          <div className="modal-box w-10/12 max-w-5xl min-h-[230px] sm:min-h-[350px] md:min-h-[450px] relative">
             <YouTube
               className="absolute top-0 left-0 w-full h-full"
               opts={opts}
@@ -23,7 +23,7 @@ const Modal = ({ keytube }) => {
             />
             <div className="modal-action">
               <form method="dialog">
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-0 top-0 md:btn-md">
+                <button className="btn btn-sm btn-circle btn-ghost absolute  right-0 top-0 md:btn-md">
                   ✕
                 </button>
               </form>

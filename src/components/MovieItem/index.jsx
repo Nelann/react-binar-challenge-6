@@ -6,7 +6,7 @@ const MovieItem = ({ movie }) => {
   if (!movie.poster_path || !movie.backdrop_path) {
     imgSrc = `https://fakeimg.pl/380x550/?text=Not+Available+Image`;
   } else {
-    imgSrc = `https://image.tmdb.org/t/p/w300/${
+    imgSrc = `https://image.tmdb.org/t/p/w342/${
       movie.poster_path || movie.backdrop_path
     }`;
   }

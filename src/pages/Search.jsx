@@ -1,42 +1,26 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ENDPOINTS } from "../utils/endpoints";
 import MovieItem from "../components/MovieItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getSearchResults } from "../redux/actions/movieAction";
 
 const Search = () => {
-  const [dataResult, setDataResult] = useState([]);
-  const token = localStorage.getItem("token");
   const [searchParam] = useSearchParams();
+  const dispatch = useDispatch();
+  const { search } = useSelector((state) => state.movie);
   const query = searchParam.get("query");
   const page = searchParam.get("page");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    const getMovie = async (page, query) => {
-      try {
-        const SEARCH_URL = ENDPOINTS.searchMovies(page, query);
-        const response = await axios.get(SEARCH_URL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const { data } = response.data;
-        setDataResult(data);
-      } catch (errors) {
-        alert(errors);
-      }
-    };
-    getMovie(page, query);
-  }, [page, query, token]);
+    dispatch(getSearchResults(page, query));
+  }, [dispatch, page, query]);
 
   return (
     <section className="max-w-7xl mx-4 md:mx-auto min-h-screen mt-10 mb-10">
       <div className="mb-8">
         <h2 className="text-xl font-bold">Result from {'"' + query + '"'}</h2>
       </div>
-      {dataResult.length < 1 ? (
+      {search.length < 1 ? (
         <div className="flex md:flex-row flex-wrap justify-center gap-6">
           <h2 className="text-xl md:text-3xl font-bold">
             {'"' + query + '"'} Not Found :(
@@ -44,7 +28,7 @@ const Search = () => {
         </div>
       ) : (
         <div className="flex md:flex-row flex-wrap justify-center gap-6">
-          {dataResult?.map((item) => (
+          {search?.map((item) => (
             <MovieItem key={item.id} movie={item} />
           ))}
         </div>

@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   popular: [],
-  trailerMovie: null
+  trailerMovie: null,
+  search: [],
+  detailMovie: [],
+  genre: [],
 };
 
 const movieSlice = createSlice({
@@ -15,8 +18,18 @@ const movieSlice = createSlice({
     setTrailer: (state, action) => {
       state.trailerMovie = action.payload;
     },
+    setSearch: (state, action) => {
+      state.search = action.payload;
+    },
+    setDetail: (state, action) => {
+      state.detailMovie = action.payload;
+    },
+    setGenre: (state, action) => {
+      state.genre = action.payload;
+    },
   },
 });
 
-export const { setPopular, setTrailer } = movieSlice.actions;
+export const { setPopular, setTrailer, setSearch, setDetail, setGenre } =
+  movieSlice.actions;
 export const movieReducer = movieSlice.reducer;

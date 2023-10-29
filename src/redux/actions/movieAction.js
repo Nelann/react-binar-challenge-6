@@ -64,7 +64,7 @@ export const getSearchResults = (page, query) => async (dispatch, getState) => {
     });
     const { data } = response.data;
     dispatch(setSearch(data));
-  } catch (errors) {
+  } catch (err) {
     toast.error(`Error: ${err}`);
   }
 };
@@ -80,7 +80,7 @@ export const getDetail = (id) => async (dispatch, getState) => {
     const data = response?.data;
     dispatch(setDetail(data?.data));
     dispatch(setGenre(data?.data?.genres));
-  } catch (error) {
+  } catch (err) {
     toast.error(`Error: ${err}`);
   }
 };

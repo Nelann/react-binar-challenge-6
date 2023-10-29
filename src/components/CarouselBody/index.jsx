@@ -9,7 +9,9 @@ const CarouselBody = ({ movie }) => {
   const { trailerMovie } = useSelector((state) => state.movie);
 
   useEffect(() => {
-    dispatch(getTrailerMovie(movie?.id));
+    if (movie.id) {
+      dispatch(getTrailerMovie(movie?.id));
+    }
   }, [dispatch, movie?.id]);
 
   return (

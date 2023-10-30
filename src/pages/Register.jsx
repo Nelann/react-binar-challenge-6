@@ -1,10 +1,14 @@
-import axios from "axios";
 import Typed from "react-typed";
 import GoogleLogin from "../components/GoogleLogin/Index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { register } from "../redux/actions/authAction";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [name, setName] = useState("");
@@ -43,30 +47,12 @@ const Register = () => {
     validatePassword(password, event.target.value);
   };
 
-  const register = async (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
 
     if (!name || !email || !password) return;
 
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/register`, {
-        name,
-        email,
-        password,
-      });
-      const { data } = response.data;
-      const { token } = data;
-
-      localStorage.setItem("token", token);
-      window.location.replace("/");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data?.message);
-        return;
-      }
-
-      alert(error?.message);
-    }
+    dispatch(register(name, email, password, navigate));
   };
 
   return (
@@ -116,7 +102,7 @@ const Register = () => {
               <p className="mt-4 leading-relaxed text-gray-500 dark:text-gray-400">Create your new account if you dont have one and start EXPLORING.</p>
             </div>
 
-            <form onSubmit={register} className="mt-8 grid grid-cols-6 gap-6">
+            <form onSubmit={handleRegister} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                   First Name

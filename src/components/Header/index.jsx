@@ -17,16 +17,12 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     dispatch(logout());
-
-    navigate("/login", { replace: true });
 
     toast.success("Successfully logout", {
       duration: 2000,
     });
-
-    window.location.reload();
   };
 
   useEffect(() => {

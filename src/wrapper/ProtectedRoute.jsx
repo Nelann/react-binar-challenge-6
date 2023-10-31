@@ -10,9 +10,7 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token === null) {
-      dispatch(getUser(navigate, null, "/login"));
-    }
+    dispatch(getUser(navigate, null, "/login"));
   }, [token, dispatch, navigate]);
 
   return children ? children : <Outlet />;

@@ -1,5 +1,5 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import CarouselBody from "../CarouselBody";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,13 +19,26 @@ const Carousel = () => {
   const { popular } = useSelector((state) => state.movie);
   const dispatch = useDispatch();
 
+  const [popularMoviesSlice, setPopularMoviesSlice] = useState([]);
+
   useEffect(() => {
     dispatch(getPopularMovies());
   }, [dispatch]);
 
-  const popularMoviesSlice = popular.slice(0, 3);
+  useEffect(() => {
+    if (popular?.length > 0) {
+      setPopularMoviesSlice(popular.slice(0, 3));
+    }
+  }, [popular]);
 
   const renderedCarouselItem = popularMoviesSlice.map((movie) => {
+    // Getting video trailer
+    const videos = movie?.videos;
+
+    const idTrailer = videos
+      ?.filter((trailer) => trailer.type)
+      ?.find((t) => t.type === "Trailer").key;
+
     let imgSrc;
     if (!movie.poster_path || !movie.backdrop_path) {
       imgSrc = `https://fakeimg.pl/350x200/?text=Not+Available+Image`;
@@ -41,7 +54,7 @@ const Carousel = () => {
           src={imgSrc}
           alt={movie?.title}
         />
-        <CarouselBody movie={movie} />
+        <CarouselBody movie={movie} idTrailer={idTrailer} />
       </div>
     );
   });
@@ -91,7 +104,5 @@ const Carousel = () => {
     </div>
   );
 };
-
-Carousel.propTypes = {};
 
 export default Carousel;

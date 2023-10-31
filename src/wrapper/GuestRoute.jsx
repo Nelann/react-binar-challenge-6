@@ -10,9 +10,7 @@ const GuestRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token !== null) {
-      dispatch(getUser(navigate, "/", null));
-    }
+    dispatch(getUser(navigate, "/", null));
   }, [token, dispatch, navigate]);
 
   return children ? children : <Outlet />;

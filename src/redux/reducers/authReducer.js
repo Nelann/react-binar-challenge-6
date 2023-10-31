@@ -12,10 +12,11 @@ const authSlice = createSlice({
     setToken: (state, action) => {
       if (action.payload) {
         localStorage.setItem("token", action.payload);
-        state.token = action.payload;
       } else {
         localStorage.removeItem("token");
       }
+
+      state.token = action.payload;
     },
     setUser: (state, action) => {
       state.user = action.payload;

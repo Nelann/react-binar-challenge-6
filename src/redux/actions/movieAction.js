@@ -68,6 +68,7 @@ export const getSearchResults = (page, query) => async (dispatch, getState) => {
     toast.error(`Error: ${err}`);
   }
 };
+
 export const getDetail = (id) => async (dispatch, getState) => {
   const DETAIL_URL = ENDPOINTS.detailMovie(id);
   try {

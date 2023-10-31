@@ -30,6 +30,13 @@ const movieSlice = createSlice({
   },
 });
 
-export const { setPopular, setTrailer, setSearch, setDetail, setGenre } =
-  movieSlice.actions;
+export const {
+  setPopular,
+  setTrailer,
+  setSearch,
+  setDetail,
+  setGenre,
+  setVideos,
+} = movieSlice.actions;
+
 export const movieReducer = movieSlice.reducer;

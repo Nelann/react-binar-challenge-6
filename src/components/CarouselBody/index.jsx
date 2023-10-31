@@ -1,19 +1,7 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getTrailerMovie } from "../../redux/actions/movieAction";
 
-const CarouselBody = ({ movie }) => {
-  const dispatch = useDispatch();
-  const { trailerMovie } = useSelector((state) => state.movie);
-
-  useEffect(() => {
-    if (movie.id) {
-      dispatch(getTrailerMovie(movie?.id));
-    }
-  }, [dispatch, movie?.id]);
-
+const CarouselBody = ({ movie, idTrailer }) => {
   return (
     <div className="absolute top-0 transform translate-y-16 md:translate-x-8 xl:translate-x-40 md:translate-y-24 xl:translate-y-44 flex flex-col md:w-4/5 xl:w-2/5 md:space-y-4 space-y-2 mx-3">
       <p className="text-white font-bold text-xl md:text-4xl xl:text-6xl">
@@ -32,7 +20,7 @@ const CarouselBody = ({ movie }) => {
         <div className="flex">
           <a
             className="btn btn-sm btn-primary"
-            href={`https://www.youtube.com/watch?v=${trailerMovie}`}
+            href={`https://www.youtube.com/watch?v=${idTrailer}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -86,6 +74,7 @@ const CarouselBody = ({ movie }) => {
 
 CarouselBody.propTypes = {
   movie: PropTypes.object,
+  idTrailer: PropTypes.string,
 };
 
 export default CarouselBody;

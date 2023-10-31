@@ -37,8 +37,8 @@ const DetailMovie = () => {
             className=" rounded-lg shadow-2xl w-6/12 sm:w-5/12 md:w-3/12 xl:3/12"
           />
           <div className="space-y-4 justify-start md:w-7/12">
-            <h3 className="text-4xl font-bold ">{detailMovie.title}</h3>
             <p className="">
+              <h3 className="text-4xl font-bold mb-2 ">{detailMovie.title}</h3>
               <i className="block">
                 {genre.map((item) => (
                   <strong key={item.id} className=" text-md md:text-lg">

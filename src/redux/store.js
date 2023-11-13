@@ -7,5 +7,5 @@ export default configureStore({
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(thunk);
   },
-  devTools: import.meta.env.MODE !== "production",
+  devTools: import.meta.env.VITE_MODE !== "production",
 });

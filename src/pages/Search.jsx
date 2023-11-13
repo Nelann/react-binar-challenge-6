@@ -23,7 +23,7 @@ const Search = () => {
       {search.length < 1 ? (
         <div className="flex md:flex-row flex-wrap justify-center gap-6">
           <h2 className="text-xl md:text-3xl font-bold">
-            {'"' + query + '"'} Not Found :(
+            {`'${query}' not found :)`}
           </h2>
         </div>
       ) : (
